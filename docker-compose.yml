@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  server-test:
+    image: server-k8s-test:dev
+    container_name: server_test
+    build: .
+    command: bash -c "sleep 10; pwd; rimraf ./lib && tsc && cross-env ENV=dev node lib/server.js"
+    # volumes:
+    #   - .:server/
+    #   - /server/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - server-mysql
+
+  server-mysql:
+    image: mysql:5.7
+    container_name: server_test_mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "33065:3306"
+    environment:
+      - MYSQL_DATABASE=test
+      - MYSQL_ROOT_PASSWORD=test
+      - TZ=Asia/Seoul
+
+networks:
+  default:
+    external:
+      name: node_with_k8s_default

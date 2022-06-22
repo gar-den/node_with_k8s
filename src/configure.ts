@@ -22,7 +22,7 @@ declare interface IServerConfig {
 
 export const ServerConfigs: IServerConfig = {
   Resolver: [
-    [UserResolver],
+    [ UserResolver ],
   ],
   Entities: [
     User

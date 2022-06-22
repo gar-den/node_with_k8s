@@ -14,13 +14,24 @@ import depthLimit from 'graphql-depth-limit';
 
 async function initServer() {
   try {
+    console.log("⭐️ process.env:", process.env.ENV)
+
+    let host = 'localhost'
+    let port = 3306
+
+    if (process.env.ENV === 'dev') {
+      host = "server_test_mysql"
+    }
+
+    console.log("⭐️ host:", host, "port:", port)
+
     await TypeORM.createConnection({
       type: 'mysql',
       database: 'test',
       username: 'root',
       password: 'test',
-      port: 3306,
-      host: 'localhost',
+      port,
+      host,
       entities: ServerConfigs.Entities,
       logging: false,
       cache: true,

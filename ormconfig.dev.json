@@ -1,0 +1,16 @@
+{
+  "type": "mysql",
+  "host": "192.168.0.135",
+  "port": 33065,
+  "username": "root",
+  "password": "test",
+  "database": "test",
+  "migrationsTableName": "migrations",
+  "entities": ["lib/entities/*.{ts,js}"],
+  "migrations": ["lib/migration/dev/*.js"],
+  "cli": {
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migration/dev"
+  },
+  "autoSchemaSync": true
+}
