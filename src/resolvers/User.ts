@@ -1,16 +1,16 @@
 import { User } from "../entities/User";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { CreateUserInput, GetUserInput, TestInput } from "./UserInput";
-import { FindOptionsWhere, getRepository } from "typeorm";
+import { FindConditions, FindOneOptions, getRepository } from "typeorm";
 // import { GraphQLString } from "graphql";
 import { TestOutput } from "./UserOutput";
 
 
 @Resolver(User)
 export class UserResolver {
-  async findOne(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]): Promise<User> {
+  async findOne(where: FindConditions<User>, options?: FindOneOptions<User>): Promise<User> {
     const userRepo = getRepository(User)
-    const user = await userRepo.findOneByOrFail(where)
+    const user = await userRepo.findOneOrFail(where, options)
 
     return user
   }

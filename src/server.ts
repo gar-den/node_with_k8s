@@ -1,19 +1,20 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
-import 'reflect-metadata';
 import * as TypeGraphQL from 'type-graphql';
 import * as TypeORM from 'typeorm';
 import * as http from 'http'
-import depthLimit from 'graphql-depth-limit';
+
 import cors from 'cors';
 import compression from 'compression';
+import "reflect-metadata";
 
 import { ServerConfigs } from './configure';
 import { UserResolver } from './resolvers/User';
+import depthLimit from 'graphql-depth-limit';
 
 async function initServer() {
   try {
-    const db = await TypeORM.createConnection({
+    await TypeORM.createConnection({
       type: 'mysql',
       database: 'test',
       username: 'root',
@@ -27,11 +28,10 @@ async function initServer() {
       synchronize: false,
       bigNumberStrings: true,
     });
-
   } catch (err) {
     console.log(err);
 
-    throw new Error(err);
+    throw err;
   }
 
   const schema = await TypeGraphQL.buildSchema({

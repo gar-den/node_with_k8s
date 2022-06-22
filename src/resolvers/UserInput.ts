@@ -6,10 +6,11 @@ import { GraphQLInt, GraphQLString } from "graphql";
 @InputType()
 export class CreateUserInput implements Partial<User> {
   @Field(() => GraphQLString, { nullable: false })
+  @Length(1, 10)
   name!: string;
 
   @Field(() => GraphQLString, { nullable: false })
-  @Length(1, 10)
+  @Length(10, 11)
   phone!: string;
 }
 

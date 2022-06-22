@@ -1,4 +1,4 @@
-import bodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { Express } from 'express'
 import { EntitySchema } from 'typeorm';
