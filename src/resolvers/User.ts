@@ -2,7 +2,6 @@ import { User } from "../entities/User";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { CreateUserInput, GetUserInput, TestInput } from "./UserInput";
 import { FindConditions, FindOneOptions, getRepository } from "typeorm";
-// import { GraphQLString } from "graphql";
 import { TestOutput } from "./UserOutput";
 
 
