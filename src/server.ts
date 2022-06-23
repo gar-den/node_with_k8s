@@ -12,18 +12,16 @@ import { ServerConfigs } from './configure';
 import { UserResolver } from './resolvers/User';
 import depthLimit from 'graphql-depth-limit';
 
-async function initServer() {
-  try {
-    console.log("⭐️ process.env:", process.env.ENV)
+export let server: ApolloServer
 
+export async function initServer() {
+  try {
     let host = 'localhost'
     let port = 3306
 
     if (process.env.ENV === 'dev') {
       host = "server_test_mysql"
     }
-
-    console.log("⭐️ host:", host, "port:", port)
 
     await TypeORM.createConnection({
       type: 'mysql',
@@ -52,7 +50,7 @@ async function initServer() {
   })
   
   const app = express();
-  const server = new ApolloServer({
+  server = new ApolloServer({
     schema,
     validationRules: [ depthLimit(2) ]
   })
@@ -84,9 +82,14 @@ async function initServer() {
 
   const httpServer = http.createServer(app);
 
-  httpServer.listen({ port: 8080 }, () => {
-    console.log(`🚀 Server ready and listening at ==> http://localhost:8080/graphql`)
+  const port = process.env.ENV === 'test' ? 8081 : 8080
+
+  httpServer.listen({ port }, () => {
+    console.log(`ENV=(${process.env.ENV}), Server listening on port ${port}`)
+    console.log(`🚀 Server ready and listening at ==> http://localhost:${[port]}/graphql`)
   })
 }
 
-initServer();
+if (process.env.ENV !== 'test') {
+  initServer();
+}
